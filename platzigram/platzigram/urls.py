@@ -20,7 +20,7 @@ from platzigram import views as local_views
 from posts import views as posts_views
 
 urlpatterns = [
-    path('hello-world', local_views.hello_world),
+    path('admin/', admin.site.urls),
 
     path('posts/', posts_views.list_posts),
 ]
