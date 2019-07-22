@@ -1,5 +1,7 @@
+# Django
 from django.shortcuts import render
 from django.http import HttpResponse
+from django.contrib.auth.decorators import login_required
 
 # Utilities
 from datetime import datetime
@@ -9,32 +11,34 @@ from datetime import datetime
 
 posts = [
     {
-    'name': 'Vía Lactea',
-    'user': 'irg',
+    'title': 'Vía Lactea',
+    'user':{
+        'name': 'irg',
+        'picture': 'https://picsum.photos/60/60/?image=1005',
+    }, 
     'timestamp': datetime.now().strftime('%b %dth, %Y - %H:%M hrs'),
-    'picture': 'https://picsum.photos/200/200/?image=1036',
+    'photo': 'https://picsum.photos/200/200/?image=1036',
     },
     {
-    'name': 'Auditorio',
-    'user': 'aam',
+    'title': 'Auditorio',
+    'user': {
+        'name': 'aam',
+        'picture': 'https://picsum.photos/60/60/?image=883',
+    },
     'timestamp': datetime.now().strftime('%b %dth, %Y - %H:%M hrs'),
-    'picture': 'https://picsum.photos/200/200/?image=903',
+    'photo': 'https://picsum.photos/200/200/?image=903',
     },
     {
-    'name': 'Paz y libertad',
-    'user': 'vgr',
+    'title': 'Paz y libertad',
+    'user': {
+        'name': 'cgr',
+        'photo': 'https://picsum.photos/60/60/?image=1027',
+    },
     'timestamp': datetime.now().strftime('%b %dth, %Y - %H:%M hrs'),
-    'picture': 'https://picsum.photos/200/200/?image=1076',
+    'photo': 'https://picsum.photos/200/200/?image=1076',
     }
 ]
 
+@login_required
 def list_posts(request):
-    content = []
-    for post in posts:
-        content.append("""
-            <p><strong>{name}</strong></p>
-            <p><small>{user} - <i>{timestamp}</i></small></p>
-            <figure><img src={picture} /></figure>
-        """.format(**post)
-        )
-    return HttpResponse('<br>'.join(content))
+    return render(request, 'posts/feed.html', {'posts': posts})
